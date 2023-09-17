@@ -1,9 +1,19 @@
 import React from 'react'
 import { Box } from "./Box.js";
-export const Board = () => {
+import "./Board.css";
+
+
+
+
+export const Board = ({board, onClick}) => {
   return (
-    <div>
-    <Box value ="X" onClick={null}/>
+    <div className='board'>
+    {board.map((value, idx) => {
+        return <Box value ={value} onClick={()=> onclick(idx)}/>
+    }
+    
+    )}
+    
     </div>
   )
 }
