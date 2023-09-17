@@ -1,10 +1,12 @@
 import './App.css';
-import { Box } from "./components/Box.js";
+
+import {Board} from "./components/Board";
 function App() {
   const board = ["X", "X", "X", "X", "X", "X", "X", "X"];
   return (
     <div className="App">
-      <Box value ="X" onClick={null}/>
+      <Board board ={board} />
+      
     </div>
   );
 }
