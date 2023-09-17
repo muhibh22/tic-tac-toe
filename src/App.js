@@ -3,7 +3,7 @@ import { Box } from "./components/Box.js";
 function App() {
   return (
     <div className="App">
-      <Box />
+      <Box value ="X" onClick={null}/>
     </div>
   );
 }
