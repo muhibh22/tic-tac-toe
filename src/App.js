@@ -71,6 +71,7 @@ const checkWinner= (board) => {
 }
 
 const resetBoard = ()=>{
+  console.log("Reset button clicked");
   setGameOver(false);
   setBoard(Array(9).fill(null));
 }
