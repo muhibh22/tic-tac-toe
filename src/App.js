@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import './App.css';
 
 import {Board} from "./components/Board";
+import { ScoreBoard } from './components/ScoreBoard';
 
 
 
@@ -50,7 +51,6 @@ function App() {
       }
     }
 
-    console.log(scores);
     setBoard(updatedBoard);
 
     setXPlaying(!xPlaying);
@@ -69,6 +69,7 @@ const checkWinner= (board) => {
 }
   return (
     <div className="App">
+    <ScoreBoard scores ={scores} xPlaying={xPlaying}/>
       <Board board ={board} onClick={handleBoxClick} />
       
     </div>
