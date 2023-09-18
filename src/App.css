@@ -1,9 +1,37 @@
-*{
-  box-sizing: border-box;
-
+/* App.css */
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Center content vertically in the viewport */
+  background-color: #f0f0f0; /* Background color */
+  padding: 20px;
+  box-sizing: border-box; /* Ensure padding doesn't affect width */
 }
-body{
-  margin: 0;
-  background-color: blanchedalmond;
-  font-family: "Fredoka",  "sans-serif";
+
+.game-title {
+  font-size: 48px;
+  margin-bottom: 20px;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.game-button {
+  background-color: #007bff;
+  color: #fff;
+  font-size: 20px;
+  padding: 10px 20px;
+  margin: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  
+  &:hover {
+    background-color: #0056b3;
+  }
 }

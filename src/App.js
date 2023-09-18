@@ -4,6 +4,7 @@ import './App.css';
 import {Board} from "./components/Board";
 import { ScoreBoard } from './components/ScoreBoard';
 import {ResetButton} from './components/ResetButton';
+import HomePage from './components/HomePage';
 
 
 
@@ -27,6 +28,7 @@ function App() {
   const[xPlaying, setXPlaying]= useState(true);
   const [scores, setScores]=useState({xScore:0, oScore:0});
   const[gameOver, setGameOver]=useState(false);
+  const [selectedGameMode, setSelectedGameMode] = useState(null);
 
   const handleBoxClick = (boxIdx) =>{
     const updatedBoard = board.map((value, idx) =>{
@@ -75,9 +77,13 @@ const resetBoard = ()=>{
   setGameOver(false);
   setBoard(Array(9).fill(null));
 }
+if (selectedGameMode === null) {
+  return <HomePage onSelectGameMode={setSelectedGameMode} />;
+}
 
   return (
     <div className="App">
+    <h1 className="game-title">3x3 Match</h1>
     <ScoreBoard scores ={scores} xPlaying={xPlaying}/>
       <Board board ={board} onClick={gameOver ? resetBoard : handleBoxClick} />
       <ResetButton resetBoard = {resetBoard}/>
