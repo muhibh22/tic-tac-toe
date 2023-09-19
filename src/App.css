@@ -1,13 +1,12 @@
-/* App.css */
 .App {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh; /* Center content vertically in the viewport */
-  background-color: #f0f0f0; /* Background color */
+  height: 100vh;
+  background-color: #f0f0f0;
   padding: 20px;
-  box-sizing: border-box; /* Ensure padding doesn't affect width */
+  box-sizing: border-box;
 }
 
 .game-title {
