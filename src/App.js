@@ -8,6 +8,7 @@ import HomePage from './components/HomePage';
 
 function App() {
   const WIN_CONDITIONS = [
+    // Rows
     [0, 1, 2, 3],
     [1, 2, 3, 4],
     [2, 3, 4, 5],
@@ -26,6 +27,7 @@ function App() {
     [30, 31, 32, 33],
     [31, 32, 33, 34],
     [32, 33, 34, 35],
+    // Columns
     [0, 6, 12, 18],
     [1, 7, 13, 19],
     [2, 8, 14, 20],
@@ -44,6 +46,7 @@ function App() {
     [15, 21, 27, 33],
     [16, 22, 28, 34],
     [17, 23, 29, 35],
+    // Diagonals
     [0, 7, 14, 21],
     [1, 8, 15, 22],
     [2, 9, 16, 23],
@@ -55,6 +58,7 @@ function App() {
     [12, 19, 26, 33],
     [13, 20, 27, 34],
     [14, 21, 28, 35],
+    // Additional Conditions
     [0, 8, 16, 24],
     [1, 9, 17, 25],
     [2, 10, 18, 26],
@@ -77,15 +81,16 @@ function App() {
 
   const handleBoxClick = (boxIdx) => {
     if (board[boxIdx] || gameOver) {
-      return;
+      return; // Do nothing if the box is already filled or the game is over
     }
 
-    const updatedBoard = board.slice();
-    updatedBoard[boxIdx] = xPlaying ? 'X' : 'O';
+    const updatedBoard = board.slice(); // Create a copy of the board
+    updatedBoard[boxIdx] = xPlaying ? 'X' : 'O'; // Place X or O in the clicked box
 
     const winner = checkWinner(updatedBoard);
 
     if (winner) {
+      // If there's a winner, update the scores
       if (winner === 'O') {
         setScores({ ...scores, oScore: scores.oScore + 1 });
       } else {
@@ -113,11 +118,11 @@ function App() {
         squareA === squareD
       ) {
         setGameOver(true);
-        return squareA; 
+        return squareA; // Return the winning player (X or O)
       }
     }
 
-    
+    // If no winner is found
     return null;
   };
 
