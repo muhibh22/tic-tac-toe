@@ -1,6 +1,6 @@
 import React from 'react';
 import './HomePage.css';
-import ticTacToeImage from './3x3.png';
+import ticTacToeImage from './6x6.png';
 
 function HomePage({ onSelectGameMode }) {
   return (
