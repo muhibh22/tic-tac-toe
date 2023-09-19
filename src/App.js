@@ -1,92 +1,147 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import './App.css';
 
-import {Board} from "./components/Board";
+import { Board } from './components/Board';
 import { ScoreBoard } from './components/ScoreBoard';
-import {ResetButton} from './components/ResetButton';
+import { ResetButton } from './components/ResetButton';
 import HomePage from './components/HomePage';
 
-
-
-
-
 function App() {
+  const WIN_CONDITIONS = [
+    // Rows
+    [0, 1, 2, 3],
+    [1, 2, 3, 4],
+    [2, 3, 4, 5],
+    [6, 7, 8, 9],
+    [7, 8, 9, 10],
+    [8, 9, 10, 11],
+    [12, 13, 14, 15],
+    [13, 14, 15, 16],
+    [14, 15, 16, 17],
+    [18, 19, 20, 21],
+    [19, 20, 21, 22],
+    [20, 21, 22, 23],
+    [24, 25, 26, 27],
+    [25, 26, 27, 28],
+    [26, 27, 28, 29],
+    [30, 31, 32, 33],
+    [31, 32, 33, 34],
+    [32, 33, 34, 35],
+    // Columns
+    [0, 6, 12, 18],
+    [1, 7, 13, 19],
+    [2, 8, 14, 20],
+    [3, 9, 15, 21],
+    [4, 10, 16, 22],
+    [5, 11, 17, 23],
+    [6, 12, 18, 24],
+    [7, 13, 19, 25],
+    [8, 14, 20, 26],
+    [9, 15, 21, 27],
+    [10, 16, 22, 28],
+    [11, 17, 23, 29],
+    [12, 18, 24, 30],
+    [13, 19, 25, 31],
+    [14, 20, 26, 32],
+    [15, 21, 27, 33],
+    [16, 22, 28, 34],
+    [17, 23, 29, 35],
+    // Diagonals
+    [0, 7, 14, 21],
+    [1, 8, 15, 22],
+    [2, 9, 16, 23],
+    [3, 10, 17, 24],
+    [6, 13, 20, 27],
+    [7, 14, 21, 28],
+    [8, 15, 22, 29],
+    [9, 16, 23, 30],
+    [12, 19, 26, 33],
+    [13, 20, 27, 34],
+    [14, 21, 28, 35],
+    // Additional Conditions
+    [0, 8, 16, 24],
+    [1, 9, 17, 25],
+    [2, 10, 18, 26],
+    [3, 11, 19, 27],
+    [6, 14, 22, 30],
+    [7, 15, 23, 31],
+    [8, 16, 24, 32],
+    [9, 17, 25, 33],
+    [12, 20, 28, 36],
+    [13, 21, 29, 37],
+    [14, 22, 30, 38],
+    [15, 23, 31, 39],
+  ];
 
-
-  const WIN_CONDITIONS=[
-    [0,1,2],
-    [3,4,5],
-    [6,7,8],
-    [0,3,6],
-    [1,4,7],
-    [2,4,8],
-    [0,4,8],
-    [2,4,6]
-  ]
-
-  const [board, setBoard]= useState(Array(9).fill(null) );
-  const[xPlaying, setXPlaying]= useState(true);
-  const [scores, setScores]=useState({xScore:0, oScore:0});
-  const[gameOver, setGameOver]=useState(false);
+  const [board, setBoard] = useState(Array(36).fill(null));
+  const [xPlaying, setXPlaying] = useState(true);
+  const [scores, setScores] = useState({ xScore: 0, oScore: 0 });
+  const [gameOver, setGameOver] = useState(false);
   const [selectedGameMode, setSelectedGameMode] = useState(null);
 
-  const handleBoxClick = (boxIdx) =>{
-    const updatedBoard = board.map((value, idx) =>{
-      if(idx==boxIdx){
-        return xPlaying==true? "X":"O";
-      }
-      else{
-        return value;
-      }
-    })
+  const handleBoxClick = (boxIdx) => {
+    if (board[boxIdx] || gameOver) {
+      return; // Do nothing if the box is already filled or the game is over
+    }
 
-    const winner= checkWinner(updatedBoard);
+    const updatedBoard = board.slice(); // Create a copy of the board
+    updatedBoard[boxIdx] = xPlaying ? 'X' : 'O'; // Place X or O in the clicked box
 
-    if (winner){
-      if(winner==="O"){
-        let {oScore}=scores;
-        oScore+=1;
-        setScores({...scores, oScore})
-      }
-      else{
-        let {xScore}=scores;
-        xScore+=1;
-        setScores({...scores, xScore})
+    const winner = checkWinner(updatedBoard);
+
+    if (winner) {
+      // If there's a winner, update the scores
+      if (winner === 'O') {
+        setScores({ ...scores, oScore: scores.oScore + 1 });
+      } else {
+        setScores({ ...scores, xScore: scores.xScore + 1 });
       }
     }
 
     setBoard(updatedBoard);
-
     setXPlaying(!xPlaying);
-  }
+  };
 
-const checkWinner= (board) => {
-  for(let i=0; i<WIN_CONDITIONS.length; i++){
-    const[x,y,z] =WIN_CONDITIONS[i];
+  const checkWinner = (board) => {
+    for (let i = 0; i < WIN_CONDITIONS.length; i++) {
+      const condition = WIN_CONDITIONS[i];
+      const [a, b, c, d] = condition;
+      const squareA = board[a];
+      const squareB = board[b];
+      const squareC = board[c];
+      const squareD = board[d];
 
-    if(board[x] && board[x]===board[y] && board [y]===board[z]){
-      setGameOver(true);
-      return board[x];
-      
+      if (
+        squareA &&
+        squareA === squareB &&
+        squareA === squareC &&
+        squareA === squareD
+      ) {
+        setGameOver(true);
+        return squareA; // Return the winning player (X or O)
+      }
     }
-  }
-}
 
-const resetBoard = ()=>{
-  console.log("Reset button clicked");
-  setGameOver(false);
-  setBoard(Array(9).fill(null));
-}
-if (selectedGameMode === null) {
-  return <HomePage onSelectGameMode={setSelectedGameMode} />;
-}
+    // If no winner is found
+    return null;
+  };
+
+  const resetBoard = () => {
+    setBoard(Array(36).fill(null));
+    setXPlaying(true);
+    setGameOver(false);
+  };
+
+  if (selectedGameMode === null) {
+    return <HomePage onSelectGameMode={setSelectedGameMode} />;
+  }
 
   return (
     <div className="App">
-    <h1 className="game-title">3x3 Match</h1>
-    <ScoreBoard scores ={scores} xPlaying={xPlaying}/>
-      <Board board ={board} onClick={gameOver ? resetBoard : handleBoxClick} />
-      <ResetButton resetBoard = {resetBoard}/>
+      <h1 className="game-title">6x6 Match</h1>
+      <ScoreBoard scores={scores} xPlaying={xPlaying} />
+      <Board board={board} onClick={gameOver ? resetBoard : handleBoxClick} />
+      <ResetButton resetBoard={resetBoard} />
     </div>
   );
 }
